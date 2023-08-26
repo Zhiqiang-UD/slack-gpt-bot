@@ -8,7 +8,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    - name: Docker Image Build and Sync
+    - name: Docker Image Build
       run: |
         docker build -t slackbot .
         docker save -o slackbot.tar slackbot
@@ -18,7 +18,11 @@ jobs:
         install -m 600 -D /dev/null ~/.ssh/id_rsa
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H "${{ secrets.HOST_DNS_NAME }}" > ~/.ssh/known_hosts
+    - name: Sync the docker image to the remote host
+      run: |
+        rsync -r slackbot.tar ubuntu@"${{ secrets.HOST_DNS_NAME }}":
     - name: Deploy
       run: |
+        ssh -l ubuntu "${{ secrets.HOST_DNS_NAME }}" "docker load -i slackbot.tar"
         ssh -l ubuntu "${{ secrets.HOST_DNS_NAME }}" "echo helloworld"
 
