@@ -24,8 +24,8 @@ jobs:
     - name: Deploy
       run: |
         ssh -l ubuntu "${{ secrets.HOST_DNS_NAME }}" "docker load -i slackbot.tar; \
-                                                      docker stop slackbot; \
-                                                      docker rm slackbot; \
+                                                      docker stop slackbot-container; \
+                                                      docker rm slackbot-container; \
                                                       export SLACK_BOT_TOKEN=${{secrets.SLACK_BOT_TOKEN}}; \
                                                       export SLACK_APP_TOKEN=${{secrets.SLACK_APP_TOKEN}}; \
                                                       export OPENAI_API_KEY=${{secrets.OPENAI_API_KEY}}; \
