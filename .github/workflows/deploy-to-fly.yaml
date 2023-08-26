@@ -23,6 +23,11 @@ jobs:
         rsync -r slackbot.tar ubuntu@"${{ secrets.HOST_DNS_NAME }}":
     - name: Deploy
       run: |
-        ssh -l ubuntu "${{ secrets.HOST_DNS_NAME }}" "docker load -i slackbot.tar"
-        ssh -l ubuntu "${{ secrets.HOST_DNS_NAME }}" "echo helloworld"
+        ssh -l ubuntu "${{ secrets.HOST_DNS_NAME }}" "docker load -i slackbot.tar; \
+                                                      docker stop slackbot; \
+                                                      docker rm slackbot; \
+                                                      SLACK_BOT_TOKEN=${{secrets.SLACK_BOT_TOKEN}}; \
+                                                      SLACK_APP_TOKEN=${{secrets.SLACK_APP_TOKEN}}; \
+                                                      OPENAI_API_KEY=${{secrets.OPENAI_API_KEY}}; \
+                                                      docker run -d --name slackbot-container slackbot;"
 
