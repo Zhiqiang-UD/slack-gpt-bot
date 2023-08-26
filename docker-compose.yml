@@ -1,0 +1,5 @@
+services:
+  slack-gpt-bot:
+    image: f1d0939d5df1
+    env_file:
+      - .env
