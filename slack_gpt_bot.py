@@ -6,6 +6,8 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 load_dotenv()
 
+GPT_MODEL="gpt-4-1106-preview"
+
 SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
 SLACK_APP_TOKEN = os.environ["SLACK_APP_TOKEN"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
@@ -45,7 +47,7 @@ def command_handler(body, context):
         print(f"Number of tokens: {num_tokens}")
 
         openai_response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model=GPT_MODEL,
             messages=messages,
             stream=True,
             temperature=0.2,

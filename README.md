@@ -1,3 +1,8 @@
+# Github Action Deployement Requirements
+1. Install Docker on the host
+2. Install rsync on the host `sudo apt install rsync`
+3. Grant user permission to run docker `sudo usermod -a -G docker ubuntu`
+
 # Slack GPT Bot
 This repository contains a Python-based Slack GPT Bot that uses OpenAI's GPT model to answer users' questions. Additionally, the bot can extract content from URLs provided in the user's message and take into account their content in its response.
 
