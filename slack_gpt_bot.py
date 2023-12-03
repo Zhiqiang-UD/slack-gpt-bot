@@ -1,4 +1,6 @@
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=OPENAI_API_KEY)
 import os
 from dotenv import load_dotenv
 from slack_bolt import App
@@ -18,7 +20,7 @@ from utils import (N_CHUNKS_TO_CONCAT_BEFORE_UPDATING, OPENAI_API_KEY,
                    update_chat)
 
 app = App(token=SLACK_BOT_TOKEN)
-openai.api_key = OPENAI_API_KEY
+
 
 
 def get_conversation_history(channel_id, thread_ts):
@@ -46,13 +48,11 @@ def command_handler(body, context):
         num_tokens = num_tokens_from_messages(messages)
         print(f"Number of tokens: {num_tokens}")
 
-        openai_response = openai.ChatCompletion.create(
-            model=GPT_MODEL,
-            messages=messages,
-            stream=True,
-            temperature=0.2,
-            max_tokens=2000
-        )
+        openai_response = client.chat.completions.create(model=GPT_MODEL,
+        messages=messages,
+        stream=True,
+        temperature=0.2,
+        max_tokens=2000)
 
         response_text = ""
         ii = 0
